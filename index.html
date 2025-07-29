@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VersaLab - Innovated by Vasu Bansal</title>
+  <style>
+    /* Reset and base styles */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f4f8fb; color: #333; line-height: 1.6; }
+
+    /* Navigation bar */
+    nav {
+      background-color: #002147;
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Layout */
+    .container { max-width: 1100px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    h1, h2 { color: #002147; margin-bottom: 15px; }
+    section { margin-bottom: 40px; }
+    ul, ol { margin-left: 20px; margin-top: 10px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 10px; }
+    th { background: #ddeeff; }
+
+    /* Collapsible list */
+    details { background: #f9f9f9; border: 1px solid #ccc; border-radius: 6px; padding: 10px 15px; margin-top: 10px; }
+    summary { font-weight: bold; font-size: 1.1em; cursor: pointer; }
+
+    /* Image full screen */
+    .img-wrapper { position: relative; max-width: 100%; margin-top: 10px; }
+    .img-wrapper img { width: 100%; border-radius: 10px; cursor: zoom-in; }
+    .img-wrapper::after {
+      content: '\1F50D';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      color: white;
+      background: rgba(0,0,0,0.5);
+      border-radius: 50%;
+      padding: 4px;
+    }
+    .fullscreen-img {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .fullscreen-img img {
+      max-width: 95%;
+      max-height: 95%;
+    }
+
+    footer {
+      text-align: center;
+      background: #002147;
+      color: #fff;
+      padding: 20px;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#intro">Introduction</a>
+    <a href="#components">Components</a>
+    <a href="#circuit">Circuit</a>
+    <a href="#experiments">Experiments</a>
+    <a href="#footer">Credits</a>
+  </nav>
+
+  <div class="container">
+    <section id="intro">
+      <h1>VersaLab</h1>
+      <p><strong>VersaLab</strong> is a smart, portable physics lab using Arduino Uno. It demonstrates core physics principles using sensors and provides real-time interaction via mobile or laptop terminal.</p>
+    </section>
+
+    <section id="components">
+      <h2>Components & Connections</h2>
+      <ul>
+        <li>Arduino Uno</li>
+        <li>BH1750 Light Sensor (I2C) → SDA(A4), SCL(A5)</li>
+        <li>TCS34725 Color Sensor (I2C) → SDA(A4), SCL(A5)</li>
+        <li>Hall Sensor → D6</li>
+        <li>Red LED → D5 (via 220Ω resistor)</li>
+        <li>Green LED → D4 (via 220Ω resistor)</li>
+        <li>Power Supply: USB or 9V battery via VIN & GND</li>
+      </ul>
+    </section>
+
+    <section id="circuit">
+      <h2>Circuit Diagram</h2>
+      <div class="img-wrapper">
+        <img src="circuit_image.png" alt="Circuit Diagram" id="previewImg">
+      </div>
+      <div class="fullscreen-img" id="fullImgBox">
+        <img src="circuit_image.png" id="fullImg">
+      </div>
+    </section>
+
+    <section id="experiments">
+      <h2>How to Conduct Experiments</h2>
+      <p>Use any serial terminal app. Send a number (1–6) to choose experiment, then use these commands:</p>
+      <ul>
+        <li><code>s</code> – Start</li>
+        <li><code>t</code> – Pause</li>
+        <li><code>r</code> – Resume</li>
+        <li><code>x</code> – Restart</li>
+        <li><code>z</code> – Reset Values</li>
+        <li><code>m</code> – Back to Menu</li>
+        <li><code>e</code> – End</li>
+      </ul>
+
+      <details>
+        <summary>1. Magnetic Field Detection</summary>
+        <ol>
+          <li>Connect Hall sensor to D6</li>
+          <li>Send <code>1</code> then <code>s</code> in serial terminal</li>
+          <li>Bring magnet close to sensor – LEDs blink when field detected</li>
+          <li>Use <code>e</code> to end or <code>m</code> to go to menu</li>
+        </ol>
+      </details>
+
+      <details>
+        <summary>2. Inverse Square Law</summary>
+        <ol>
+          <li>Use BH1750 at fixed point</li>
+          <li>Move light source at 5, 10, 15... cm</li>
+          <li>Send <code>2</code> then <code>s</code> to begin</li>
+          <li>Lux values logged every 6 seconds</li>
+        </ol>
+      </details>
+
+      <details>
+        <summary>3. Color Absorption</summary>
+        <ol>
+          <li>Place colored object near TCS34725 sensor</li>
+          <li>Send <code>3</code> then <code>s</code></li>
+          <li>8-bit RGB values displayed every 2 seconds</li>
+        </ol>
+      </details>
+
+      <details>
+        <summary>4. Shadow Detection</summary>
+        <ol>
+          <li>Use BH1750 sensor</li>
+          <li>Cover/uncover sensor while reading</li>
+          <li>Send <code>4</code> then <code>s</code></li>
+          <li>Lux logged every 1 second</li>
+        </ol>
+      </details>
+
+      <details>
+        <summary>5. Color Consistency</summary>
+        <ol>
+          <li>Send <code>5</code> then <code>s</code></li>
+          <li>If RGB change exceeds threshold → red LED blinks</li>
+        </ol>
+      </details>
+
+      <details>
+        <summary>6. RPM Measurement</summary>
+        <ol>
+          <li>Mount magnet on wheel edge</li>
+          <li>Sensor on D6 counts rotations for 10s</li>
+          <li>Send <code>6</code> then <code>s</code></li>
+          <li>RPM calculated and displayed</li>
+        </ol>
+      </details>
+    </section>
+  </div>
+
+  <footer id="footer">
+    VersaLab – Innovated by VASU BANSAL
+  </footer>
+
+  <script>
+    const fullImgBox = document.getElementById("fullImgBox");
+    const fullImg = document.getElementById("fullImg");
+    const previewImg = document.getElementById("previewImg");
+
+    previewImg.onclick = () => {
+      fullImgBox.style.display = "flex";
+    };
+    fullImgBox.onclick = () => {
+      fullImgBox.style.display = "none";
+    };
+  </script>
+</body>
+</html>
